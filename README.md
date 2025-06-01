@@ -1,6 +1,6 @@
 # ohos-sdk
 
-HarmonyOS command line tools for github action
+HarmonyOS command line tools for github action, Linux only
 
 - latest version: `5.0.13.200`
 - latest API: `5.0.5(17)`
