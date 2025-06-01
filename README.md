@@ -8,9 +8,9 @@ HarmonyOS command line tools for github action
 ## Usage
 
 ```shell
-curl -fsSL https://github.com/ErBWs/ohos-sdk/releases/download/5.0.13.200/ohos-sdk-linux-amd64.tar.gz.aa -o ohos-sdk-linux-amd64.tar.gz.aa
-curl -fsSL https://github.com/ErBWs/ohos-sdk/releases/download/5.0.13.200/ohos-sdk-linux-amd64.tar.gz.ab -o ohos-sdk-linux-amd64.tar.gz.ab
-curl -fsSL https://github.com/ErBWs/ohos-sdk/releases/download/5.0.13.200/ohos-sdk-linux-amd64.tar.gz.sha256 -o ohos-sdk-linux-amd64.tar.gz.sha256
+curl -fsSL https://github.com/ErBWs/ohos-sdk/releases/download/{version}/ohos-sdk-linux-amd64.tar.gz.aa -o ohos-sdk-linux-amd64.tar.gz.aa
+curl -fsSL https://github.com/ErBWs/ohos-sdk/releases/download/{version}/ohos-sdk-linux-amd64.tar.gz.ab -o ohos-sdk-linux-amd64.tar.gz.ab
+curl -fsSL https://github.com/ErBWs/ohos-sdk/releases/download/{version}/ohos-sdk-linux-amd64.tar.gz.sha256 -o ohos-sdk-linux-amd64.tar.gz.sha256
 cat ohos-sdk-linux-amd64.tar.gz.aa ohos-sdk-linux-amd64.tar.gz.ab > ohos-sdk-linux-amd64.tar.gz
 sha256sum -c ohos-sdk-linux-amd64.tar.gz.sha256
 
