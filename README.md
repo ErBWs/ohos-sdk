@@ -25,7 +25,7 @@ echo "$GITHUB_WORKSPACE/command-line-tools/tool/node/bin" >> $GITHUB_PATH
 echo "$GITHUB_WORKSPACE/command-line-tools/bin" >> $GITHUB_PATH
 ```
 
-for flutter, you also need to setup `HOS_SDK_HOME`
+For flutter, you also need to setup `HOS_SDK_HOME`
 
 ```shell
 echo "HOS_SDK_HOME=$GITHUB_WORKSPACE/command-line-tools/sdk" >> $GITHUB_ENV
