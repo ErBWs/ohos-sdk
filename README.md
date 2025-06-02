@@ -5,6 +5,10 @@ HarmonyOS command line tools for github action, Linux only
 - latest version: `5.0.13.200`
 - latest API: `5.0.5(17)`
 
+> [!IMPORTANT]
+>
+> This is for HarmonyOS, not OpenHarmony
+
 ## Usage
 
 ```shell
