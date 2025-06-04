@@ -2,7 +2,8 @@
 
 HarmonyOS command line tools for github action, Linux only
 
-- latest version: `5.0.13.200`
+- latest CLI tools version: `5.0.13.200`
+- latest SDK version: `5.0.5.165`
 - latest API: `5.0.5(17)`
 
 > [!IMPORTANT]
