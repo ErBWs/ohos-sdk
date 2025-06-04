@@ -12,6 +12,8 @@ HarmonyOS command line tools for github action, Linux only
 
 ## Usage
 
+You can use action [`ErBWs/setup-ohos@v1`](https://github.com/ErBWs/setup-ohos) or configure it manually:
+
 ```shell
 curl -fsSL https://github.com/ErBWs/ohos-sdk/releases/latest/download/ohos-sdk-linux-amd64.tar.gz.aa -o ohos-sdk-linux-amd64.tar.gz.aa
 curl -fsSL https://github.com/ErBWs/ohos-sdk/releases/latest/download/ohos-sdk-linux-amd64.tar.gz.ab -o ohos-sdk-linux-amd64.tar.gz.ab
