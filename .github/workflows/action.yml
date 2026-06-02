@@ -15,16 +15,32 @@ on:
         description: 'Windows amd64'
         required: true
         type: string
+      windows_amd64_sha256:
+        description: 'Windows amd64 sha256'
+        required: true
+        type: string
       linux_amd64_url:
         description: 'Linux amd64'
+        required: true
+        type: string
+      linux_amd64_sha256:
+        description: 'Linux amd64 sha256'
         required: true
         type: string
       macos_amd64_url:
         description: 'macOS Intel'
         required: true
         type: string
+      macos_amd64_sha256:
+        description: 'macOS Intel sha256'
+        required: true
+        type: string
       macos_arm64_url:
         description: 'macOS Apple Silicon'
+        required: true
+        type: string
+      macos_arm64_sha256:
+        description: 'macOS Apple Silicon sha256'
         required: true
         type: string
 
@@ -42,18 +58,41 @@ jobs:
       - name: Download Commandline Tools
         env:
           WIN_URL: ${{ inputs.windows_amd64_url }}
+          WIN_SHA256: ${{ inputs.windows_amd64_sha256 }}
           LINUX_URL: ${{ inputs.linux_amd64_url }}
+          LINUX_SHA256: ${{ inputs.linux_amd64_sha256 }}
           MAC_AMD_URL: ${{ inputs.macos_amd64_url }}
+          MAC_AMD_SHA256: ${{ inputs.macos_amd64_sha256 }}
           MAC_ARM_URL: ${{ inputs.macos_arm64_url }}
+          MAC_ARM_SHA256: ${{ inputs.macos_arm64_sha256 }}
         run: |
-          curl -sSL "$WIN_URL" -o ohos-sdk-windows-amd64.zip
-          echo "1 downloaded"
-          curl -sSL "$LINUX_URL" -o ohos-sdk-linux-amd64.zip
-          echo "2 downloaded"
-          curl -sSL "$MAC_AMD_URL" -o ohos-sdk-mac-amd64.zip
-          echo "3 downloaded"
-          curl -sSL "$MAC_ARM_URL" -o ohos-sdk-mac-arm64.zip
-          echo "4 downloaded"
+          download_and_verify() {
+            local url="$1"
+            local output="$2"
+            local expected_sha="$3"
+            local attempt
+
+            for attempt in 1 2; do
+              echo "Downloading $output (attempt $attempt/2)"
+              rm -f "$output"
+              curl -sSL "$url" -o "$output"
+
+              if printf '%s  %s\n' "$expected_sha" "$output" | sha256sum -c -; then
+                echo "Verified $output"
+                return 0
+              fi
+
+              echo "Checksum verification failed for $output"
+            done
+
+            echo "Checksum verification failed after retry for $output" >&2
+            return 1
+          }
+
+          download_and_verify "$WIN_URL" ohos-sdk-windows-amd64.zip "$WIN_SHA256"
+          download_and_verify "$LINUX_URL" ohos-sdk-linux-amd64.zip "$LINUX_SHA256"
+          download_and_verify "$MAC_AMD_URL" ohos-sdk-mac-amd64.zip "$MAC_AMD_SHA256"
+          download_and_verify "$MAC_ARM_URL" ohos-sdk-mac-arm64.zip "$MAC_ARM_SHA256"
         shell: bash
 
       - name: Process and Split Linux
