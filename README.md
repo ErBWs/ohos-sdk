@@ -1,16 +1,16 @@
 # ohos-sdk
 
-HarmonyOS command line tools for github action, Linux only
+HarmonyOS command line tools download.
 
-- latest CLI tools version: `6.1.0.818`
-- latest SDK version: `6.1.0.105`
-- latest API: `6.1.0(23)`
+- latest CLI tools version: `6.1.1.280`
+- latest SDK version: `6.1.1.125`
+- latest API: `6.1.1(24)`
 
 > [!IMPORTANT]
 >
 > This is for HarmonyOS, not OpenHarmony
 
-## Usage
+## Usage in actions
 
 You can use action [`ErBWs/setup-ohos@v1`](https://github.com/ErBWs/setup-ohos) or configure it manually:
 

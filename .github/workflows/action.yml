@@ -1,0 +1,83 @@
+name: build
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        required: true
+        type: string
+      draft:
+        description: 'Whether creates a draft release'
+        required: true
+        type: boolean
+        default: false
+      windows_amd64_url:
+        description: 'Commandline Tools download links for Windows amd64'
+        required: true
+        type: string
+      linux_amd64_url:
+        description: 'Commandline Tools download links for Linux amd64'
+        required: true
+        type: string
+      macos_amd64_url:
+        description: 'Commandline Tools download links for macOS Intel'
+        required: true
+        type: string
+      macos_arm64_url:
+        description: 'Commandline Tools download links for macOS Apple Silicon'
+        required: true
+        type: string
+
+jobs:
+  pack_and_release:
+    name: Pack and Release
+    runs-on: ubuntu-latest
+    permissions: write-all
+    steps:
+      - name: Prepare Folders
+        run: |
+          mkdir -p dist
+        shell: bash
+
+      - name: Download Commandline Tools
+        env:
+          WIN_URL: ${{ inputs.windows_amd64_url }}
+          LINUX_URL: ${{ inputs.linux_amd64_url }}
+          MAC_AMD_URL: ${{ inputs.macos_amd64_url }}
+          MAC_ARM_URL: ${{ inputs.macos_arm64_url }}
+        run: |
+          curl -fsSL "$WIN_URL" -o ohos-sdk-windows-amd64.zip
+          curl -fsSL "$LINUX_URL" -o ohos-sdk-linux-amd64.zip
+          curl -fsSL "$MAC_AMD_URL" -o ohos-sdk-mac-amd64.zip
+          curl -fsSL "$MAC_ARM_URL" -o ohos-sdk-mac-arm64.zip
+        shell: bash
+
+      - name: Process and Split Linux
+        run: |
+          unzip ohos-sdk-linux-amd64.zip
+          tar -czf ohos-sdk-linux-amd64.tar.gz command-line-tools/
+          sha256sum ohos-sdk-linux-amd64.tar.gz > dist/ohos-sdk-linux-amd64.tar.gz.sha256
+          split -b 1500m ohos-sdk-linux-amd64.tar.gz dist/ohos-sdk-linux-amd64.tar.gz.
+          rm -rf command-line-tools/ ohos-sdk-linux-amd64.zip
+        shell: bash
+
+      - name: Generates sha256sum for Windows/macOS
+        run: |
+          for file in *.zip; do
+            sha256sum "$file" > "dist/$file.sha256"
+          done
+        shell: bash
+
+      - name: Process and Split Windows/macOS
+        run: |
+          split -b 1500m ohos-sdk-windows-amd64.zip dist/ohos-sdk-windows-amd64.zip.
+          split -b 1500m ohos-sdk-mac-amd64.zip dist/ohos-sdk-mac-amd64.zip.
+          split -b 1500m ohos-sdk-mac-arm64.zip dist/ohos-sdk-mac-arm64.zip.
+        shell: bash
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ inputs.tag }}
+          draft: ${{ inputs.draft }}
+          files: dist/*
