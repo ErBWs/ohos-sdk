@@ -46,10 +46,14 @@ jobs:
           MAC_AMD_URL: ${{ inputs.macos_amd64_url }}
           MAC_ARM_URL: ${{ inputs.macos_arm64_url }}
         run: |
-          curl -fsSL "$WIN_URL" -o ohos-sdk-windows-amd64.zip
-          curl -fsSL "$LINUX_URL" -o ohos-sdk-linux-amd64.zip
-          curl -fsSL "$MAC_AMD_URL" -o ohos-sdk-mac-amd64.zip
-          curl -fsSL "$MAC_ARM_URL" -o ohos-sdk-mac-arm64.zip
+          curl -sSL "$WIN_URL" -o ohos-sdk-windows-amd64.zip
+          echo "1 downloaded"
+          curl -sSL "$LINUX_URL" -o ohos-sdk-linux-amd64.zip
+          echo "2 downloaded"
+          curl -sSL "$MAC_AMD_URL" -o ohos-sdk-mac-amd64.zip
+          echo "3 downloaded"
+          curl -sSL "$MAC_ARM_URL" -o ohos-sdk-mac-arm64.zip
+          echo "4 downloaded"
         shell: bash
 
       - name: Process and Split Linux
